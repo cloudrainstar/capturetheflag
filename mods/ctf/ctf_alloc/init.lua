@@ -103,6 +103,7 @@ function ctf_alloc.set_all()
 	end)
 
 	local to_red = math.random(2) == 2
+	local team_counter = 1
 	for _, spair in pairs(players) do
 		local player     = spair.player
 		local name       = player:get_player_name()
@@ -113,7 +114,13 @@ function ctf_alloc.set_all()
 		else
 			team = "blue"
 		end
-		to_red = not to_red
+		-- This is currently R, B, R, B, this will change it to R, B, B, R, R
+		if team_counter == 1 then
+			to_red = not to_red
+			team_counter = 0
+		else
+			team_counter = team_counter + 1
+		end
 
 		if alloc_mode ~= 0 and team then
 			ctf.log("autoalloc", name .. " was allocated to " .. team)
